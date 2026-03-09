@@ -1,0 +1,70 @@
+[gd_scene load_steps=0 format=3 uid="uid://b62hwn4xrcb60"]
+
+[ext_resource type="Texture2D" uid="uid://bfim8c755nq7b" path="res://assets/3d/texture prototype/Green/texture_09.png" id="1_k7703"]
+[ext_resource type="PackedScene" uid="uid://b4ok5m56ko5it" path="res://week 1 - movement & feel/3d/Player3D.tscn" id="1_usdn4"]
+[ext_resource type="Texture2D" uid="uid://byptweak7wedl" path="res://assets/3d/texture prototype/Orange/texture_02.png" id="3_gkmc1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wegs"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_phyuh"]
+sky_material = SubResource("ProceduralSkyMaterial_0wegs")
+
+[sub_resource type="Environment" id="Environment_gqlp0"]
+background_mode = 2
+sky = SubResource("Sky_phyuh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j6vco"]
+albedo_color = Color(0.3372549, 0.80784315, 0.19607843, 1)
+albedo_texture = ExtResource("1_k7703")
+uv1_scale = Vector3(3, 3, 3)
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pwwr3"]
+material = SubResource("StandardMaterial3D_j6vco")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0wegs"]
+size = Vector3(2, 0.001, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tn8sy"]
+albedo_texture = ExtResource("3_gkmc1")
+uv1_triplanar = true
+
+[node name="Playbox" type="Node3D" unique_id=2035705275]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=797173574]
+environment = SubResource("Environment_gqlp0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=958658206]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=998706289 instance=ExtResource("1_usdn4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1065307, -0.063510895, -9.551714)
+
+[node name="Graybox" type="Node3D" parent="." unique_id=937247663]
+
+[node name="Floor" type="MeshInstance3D" parent="Graybox" unique_id=1697640992]
+transform = Transform3D(64.12436, 0, 0, 0, 1, 0, 0, 0, 62.830017, 0, 0, 0)
+mesh = SubResource("PlaneMesh_pwwr3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Graybox/Floor" unique_id=1761749274]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Graybox/Floor/StaticBody3D" unique_id=708740012]
+shape = SubResource("BoxShape3D_0wegs")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Graybox" unique_id=1301295026]
+use_collision = true
+
+[node name="Platform" type="CSGBox3D" parent="Graybox/CSGCombiner3D" unique_id=634226484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8641052, 1.5021667, 5.257263)
+size = Vector3(9.518127, 4.0043335, 11.514526)
+material = SubResource("StandardMaterial3D_tn8sy")
+
+[node name="Tangga" type="CSGBox3D" parent="Graybox/CSGCombiner3D" unique_id=886931608]
+transform = Transform3D(1, 0, 0, 0, 0.78220594, 0.6230199, 0, -0.6230199, 0.78220594, 2.8641052, 0.18859781, -2.2644284)
+size = Vector3(9.518127, 2.9890442, 6.8893347)
+material = SubResource("StandardMaterial3D_tn8sy")

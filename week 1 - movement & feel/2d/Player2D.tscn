@@ -1,0 +1,83 @@
+[gd_scene load_steps=10 format=3 uid="uid://bflhv7xr1xswb"]
+
+[ext_resource type="Script" path="res://week 1 - movement & feel/2d/Player2D.gd" id="1_i6eer"]
+[ext_resource type="Texture2D" uid="uid://vs0rvrfwverk" path="res://assets/2d/platformer pack/Characters/character_purple_front.svg" id="1_l6f0d"]
+[ext_resource type="Texture2D" uid="uid://bmywpyxw3hjgj" path="res://assets/2d/platformer pack/Characters/character_purple_hit.svg" id="2_gjsx3"]
+[ext_resource type="Texture2D" uid="uid://chawdvikvpue4" path="res://assets/2d/platformer pack/Characters/character_purple_idle.svg" id="3_3bwyy"]
+[ext_resource type="Texture2D" uid="uid://fo5cpby21s0v" path="res://assets/2d/platformer pack/Characters/character_purple_jump.svg" id="3_jd815"]
+[ext_resource type="Texture2D" uid="uid://chydx0ntk35a7" path="res://assets/2d/platformer pack/Characters/character_purple_walk_a.svg" id="4_jd815"]
+[ext_resource type="Texture2D" uid="uid://14kr5erln3bt" path="res://assets/2d/platformer pack/Characters/character_purple_walk_b.svg" id="5_gjsx3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6eer"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gjsx3")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l6f0d")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jd815")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3bwyy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jd815")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gjsx3")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"in_wall",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_li6t2"]
+radius = 40.0
+height = 92.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation")]
+script = ExtResource("1_i6eer")
+animation = NodePath("Animation")
+move_speed = 320.0
+friction = 80.0
+acceleration = 100.0
+coyote_time = 0.2
+jump_buffer = 0.1
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -64)
+sprite_frames = SubResource("SpriteFrames_i6eer")
+animation = &"in_wall"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_li6t2")
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(0, -120)
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
