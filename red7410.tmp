@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3ixqctqwb3d2"]
+
+[ext_resource type="Script" path="res://red_gem.gd" id="1_3fhm3"]
+[ext_resource type="Texture2D" uid="uid://dlj3herereeus" path="res://assets/2d/platformer pack/Tiles/gem_red.svg" id="1_ribkn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v4qkp"]
+size = Vector2(40, 36)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_3fhm3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="red" type="Sprite2D" parent="Area2D"]
+position = Vector2(57, 1)
+texture = ExtResource("1_ribkn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(57, 1)
+shape = SubResource("RectangleShape2D_v4qkp")
