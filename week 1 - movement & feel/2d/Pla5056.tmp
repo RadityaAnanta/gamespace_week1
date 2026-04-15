@@ -904,10 +904,9 @@ position = Vector2(492, 284)
 [node name="chest2" parent="." instance=ExtResource("4_e4tr1")]
 position = Vector2(735, 544)
 
-[node name="Player" parent="." node_paths=PackedStringArray("gem_label", "health_bar") instance=ExtResource("3_jbyjp")]
+[node name="Player" parent="." node_paths=PackedStringArray("gem_label") instance=ExtResource("3_jbyjp")]
 position = Vector2(415, 576)
 gem_label = NodePath("../CanvasLayer/GemLabel")
-health_bar = NodePath("../CanvasLayer/HealthBar")
 
 [node name="Enemy" parent="." instance=ExtResource("5_sqxhq")]
 position = Vector2(1488, 483)

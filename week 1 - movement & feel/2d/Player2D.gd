@@ -1,8 +1,13 @@
 class_name Player2D
 extends CharacterBody2D
 
+@onready var bullet_spawn = $BulletSpawn
 @export var animation: AnimatedSprite2D = null
 @export var gem_label: Label = null
+
+@export var max_health: int = 5
+var health: int
+@export var health_bar: ProgressBar
 
 @export_group("Player Data")
 @export var move_speed: float = 200
@@ -26,21 +31,29 @@ extends CharacterBody2D
 @export var wall_jump_height_mult: float = 1.4
 
 var gems: int = 0
+var bullet_scene = preload("res://week3 -/bullet.tscn")
 
 var _direction: float = 0
+var facing_direction: int = 1   # 🔥 FIX
+
 var _coyote_timer: float = 0
 var _jump_buffer_timer: float = 0
 var _wall_direction: float = 0
 
+var invincible = false
 
 func _ready():
 	update_gem_ui()
 
+	health = max_health
+	update_health_ui()
+
 
 func _process(_delta: float) -> void:
 	_animation()
-
-
+	
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
 
 
 func _physics_process(delta: float) -> void:
@@ -50,11 +63,9 @@ func _physics_process(delta: float) -> void:
 		_coyote_timer -= delta
 	else:
 		_coyote_timer = coyote_time
-	
 
 	if is_on_wall() and not is_on_floor():
 		_wall_direction = get_wall_normal().x
-
 
 		if velocity.y > wall_slide_speed:
 			velocity.y = wall_slide_speed
@@ -77,6 +88,8 @@ func _move() -> void:
 	_direction = Input.get_axis("left", "right")
 
 	if _direction != 0:
+		facing_direction = _direction   # 🔥 SIMPAN ARAH TERAKHIR
+
 		velocity.x = move_toward(
 			velocity.x,
 			move_speed * _direction * speed_mult,
@@ -121,10 +134,31 @@ func _animation() -> void:
 
 func _facing_direction() -> void:
 
-	if _direction > 0:
+	if facing_direction > 0:
 		animation.flip_h = false
-	elif _direction < 0:
+		bullet_spawn.position.x = abs(bullet_spawn.position.x)
+	else:
 		animation.flip_h = true
+		bullet_spawn.position.x = -abs(bullet_spawn.position.x)
+
+
+func shoot():
+
+	print("Triple Shoot FIX")
+
+	var spacing = 30
+
+	for i in range(3):
+
+		var bullet = bullet_scene.instantiate()
+		get_parent().add_child(bullet)
+
+		bullet.direction = facing_direction   # 🔥 FIX
+
+		var spawn_pos = bullet_spawn.global_position
+		spawn_pos.x += facing_direction * i * spacing
+
+		bullet.global_position = spawn_pos
 
 
 func add_gem(amount):
@@ -133,6 +167,34 @@ func add_gem(amount):
 
 
 func update_gem_ui():
-
 	if gem_label != null:
 		gem_label.text = "Gems: " + str(gems)
+
+
+func update_health_ui():
+	if health_bar != null:
+		health_bar.value = health
+
+
+func take_damage(amount):
+
+	if invincible:
+		return
+
+	invincible = true
+
+	health -= amount
+	print("HP:", health)
+
+	update_health_ui()
+
+	if health <= 0:
+		die()
+
+	await get_tree().create_timer(0.5).timeout
+	invincible = false
+
+
+func die():
+	print("Player mati")
+	queue_free()

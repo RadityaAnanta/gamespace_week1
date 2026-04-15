@@ -81,6 +81,3 @@ offset = Vector2(0, -120)
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-
-[node name="BulletSpawn" type="Marker2D" parent="."]
-position = Vector2(63, -47)
