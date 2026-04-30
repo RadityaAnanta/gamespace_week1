@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://bd8h35rpmyhf6"]
+
+[ext_resource type="Script" path="res://week3 - Burst Fire/enemy.gd" id="1_07u51"]
+[ext_resource type="Texture2D" uid="uid://mut6xq4rhdd5" path="res://assets/2d/platformer pack/Enemies/mouse_rest.svg" id="2_3mb4q"]
+[ext_resource type="Texture2D" uid="uid://sluw75qrbxhe" path="res://assets/2d/platformer pack/Enemies/mouse_walk_a.svg" id="2_e2sjj"]
+[ext_resource type="Texture2D" uid="uid://c1bwy221aovx0" path="res://assets/2d/platformer pack/Enemies/mouse_walk_b.svg" id="4_6aine"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5p7xa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_e2sjj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_3mb4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6aine")
+}],
+"loop": true,
+"name": &"run",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1meu7"]
+size = Vector2(43, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vs8qm"]
+size = Vector2(43, 45)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hcfab"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jp7vp"]
+size = Vector2(31, 32.5)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_07u51")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5p7xa")
+animation = &"run"
+frame_progress = 0.514247
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 9.5)
+shape = SubResource("RectangleShape2D_1meu7")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, 9.5)
+shape = SubResource("RectangleShape2D_vs8qm")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(49, 0)
+offset_left = -56.0
+offset_top = -40.0
+offset_right = 56.0
+offset_bottom = -13.0
+max_value = 30.0
+value = 30.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-2, 10)
+physics_material_override = SubResource("PhysicsMaterial_hcfab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_jp7vp")
