@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3 uid="uid://bflhv7xr1xswb"]
+
+[ext_resource type="Script" path="res://week 1 - movement & feel/2d/Player2D.gd" id="1_i6eer"]
+[ext_resource type="Texture2D" uid="uid://vs0rvrfwverk" path="res://assets/2d/platformer pack/Characters/character_purple_front.svg" id="1_l6f0d"]
+[ext_resource type="Texture2D" uid="uid://bmywpyxw3hjgj" path="res://assets/2d/platformer pack/Characters/character_purple_hit.svg" id="2_gjsx3"]
+[ext_resource type="Texture2D" uid="uid://chawdvikvpue4" path="res://assets/2d/platformer pack/Characters/character_purple_idle.svg" id="3_3bwyy"]
+[ext_resource type="Texture2D" uid="uid://fo5cpby21s0v" path="res://assets/2d/platformer pack/Characters/character_purple_jump.svg" id="3_jd815"]
+[ext_resource type="Texture2D" uid="uid://chydx0ntk35a7" path="res://assets/2d/platformer pack/Characters/character_purple_walk_a.svg" id="4_jd815"]
+[ext_resource type="Texture2D" uid="uid://14kr5erln3bt" path="res://assets/2d/platformer pack/Characters/character_purple_walk_b.svg" id="5_gjsx3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6eer"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gjsx3")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l6f0d")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jd815")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3bwyy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jd815")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gjsx3")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"in_wall",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_li6t2"]
+radius = 40.0
+height = 92.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_n08ob"]
+line_spacing = 5.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_i6eer")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -64)
+sprite_frames = SubResource("SpriteFrames_i6eer")
+animation = &"Move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -47)
+shape = SubResource("CapsuleShape2D_li6t2")
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(0, -120)
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="BulletSpawn" type="Marker2D" parent="."]
+position = Vector2(63, -47)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 30)
+
+[node name="FloatingText" type="Label" parent="."]
+offset_left = -47.0
+offset_top = -122.0
+offset_right = 47.0
+offset_bottom = -99.0
+label_settings = SubResource("LabelSettings_n08ob")
